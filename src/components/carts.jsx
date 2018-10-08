@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
-import Navbar from "./components/navbar";
-import Carts from "./components/carts";
+import Cart from "./cart";
 
-class App extends Component {
+class Carts extends Component {
   state = {
     counters: [
       { id: 1, value: 0 },
@@ -36,14 +34,24 @@ class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
-        <Navbar />
-        <main className="container">
-          <Carts onReset={this.handleReset} onIncrement={this.handleIncrement} onDelete={this.handleDelete}/>
-        </main>
-      </React.Fragment>
+      <div>
+        <button
+          onClick={this.handleReset}
+          className="btn btn-primary btn-sm m-2"
+        >
+          Reset
+        </button>
+        {this.state.counters.map(counter => (
+          <Cart
+            key={counter.id}
+            onDelete={this.handleDelete}
+            onIncrement={this.handleIncrement}
+            counter={counter}
+          />
+        ))}
+      </div>
     );
   }
 }
 
-export default App;
+export default Carts;
