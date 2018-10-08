@@ -27,7 +27,9 @@ class App extends Component {
     const index = counters.indexOf(counter);
     counters[index] = { ...counter };
     counters[index].value++;
-    const totalCost = counters.value * counters.price;
+    const totalCost = counters.reduce((accumulator, {value, price}) => {
+      return accumulator + (value * price);
+    }, 0);
     this.setState({ counters, totalCost });
   };
 
@@ -41,7 +43,7 @@ class App extends Component {
       <React.Fragment>
         <Navbar
           totalCounters={this.state.counters.filter(c => c.value > 0).length}
-          totalCost={this.totalCost}
+          totalCost={this.state.totalCost}
         />
         <main className="container">
           <div className="row">
