@@ -2,19 +2,31 @@ import React, { Component } from "react";
 
 class Cart extends Component {
   render() {
+    const { counter, item } = this.props; 
+
     return (
       <div>
+        <span style={{ fontSize: 20 }}>
+          {item}
+        </span>
         <span style={{ fontSize: 20 }} className={this.setBadgeClass()}>
           {this.formatValue()}
         </span>
         <button
-          onClick={() => this.props.onIncrement(this.props.counter)}
+          onClick={() => this.props.onIncrement(counter)}
           className="btn btn-secondary btn-sm"
         >
-          Increment
+          Add
         </button>
-        <button onClick={() => this.props.onDelete(this.props.counter.id)} className="btn btn-danger btn-sm m-2">Delete</button> 
-
+        <button
+          onClick={() => this.props.onDelete(counter.id)}
+          className="btn btn-danger btn-sm m-2"
+        >
+          Remove
+        </button>
+        <span style={{ fontSize: 20 }}>
+         = {this.itemPrice()}
+        </span>
       </div>
     );
   }
@@ -27,7 +39,12 @@ class Cart extends Component {
 
   formatValue() {
     const { value } = this.props.counter;
-    return value === 0 ? "Zero" : value;
+    return value === 0 ? "0" : value;
+  }
+
+  itemPrice() {
+    const itemPrice = this.props.price * this.props.counter.value;
+    return itemPrice;
   }
 }
 

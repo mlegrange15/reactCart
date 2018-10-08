@@ -6,11 +6,12 @@ import Carts from "./components/carts";
 class App extends Component {
   state = {
     counters: [
-      { id: 1, value: 0 },
-      { id: 2, value: 4 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 }
-    ]
+      { id: 1, value: 0, item: "Shoes", price: 75 },
+      { id: 2, value: 0, item: "Shirt", price: 35 },
+      { id: 3, value: 0, item: "Hat", price: 25 },
+      { id: 4, value: 0, item: "Pants", price: 100 }
+    ],
+    totalCost: 0
   };
 
   handleReset = () => {
@@ -26,7 +27,8 @@ class App extends Component {
     const index = counters.indexOf(counter);
     counters[index] = { ...counter };
     counters[index].value++;
-    this.setState({ counters });
+    const totalCost = counters.value * counters.price;
+    this.setState({ counters, totalCost });
   };
 
   handleDelete = id => {
@@ -37,14 +39,21 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
-        <Navbar totalCounters={this.state.counters.filter(c => c.value > 0).length}/>
+        <Navbar
+          totalCounters={this.state.counters.filter(c => c.value > 0).length}
+          totalCost={this.totalCost}
+        />
         <main className="container">
-          <Carts
-            counters={this.state.counters}
-            onReset={this.handleReset}
-            onIncrement={this.handleIncrement}
-            onDelete={this.handleDelete}
-          />
+          <div className="row">
+            <div className="col-md-12">
+              <Carts
+                counters={this.state.counters}
+                onReset={this.handleReset}
+                onIncrement={this.handleIncrement}
+                onDelete={this.handleDelete}
+              />
+            </div>
+          </div>
         </main>
       </React.Fragment>
     );
